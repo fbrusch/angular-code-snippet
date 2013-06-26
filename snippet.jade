@@ -4,11 +4,22 @@
     {
         margin-bottom: 1em;
     }
+    .code-area
+    {
+        margin-bottom: 1em;
+    }
 
+    .CodeMirror
+    {
+        height: auto;
+        //-border: 1px dotted black;
+        border-radius: 5px;
+        background-color: rgb(245, 245, 245);
+    }
 
 .code-snippet
-    pre
-        code {{code}}
-    button.btn(ng-click="exec()")
+    .code-area
+        textarea(ui-codemirror="options",ng-model="code",ui-refresh="code")
+    button.btn.btn-primary(ng-click="exec()")
         i.icon-play
         span &nbsp;Play

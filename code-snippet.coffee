@@ -1,17 +1,22 @@
 template = require "./snippet"
 jade = require "jade/runtime"
 
-module = angular.module "code-snippet", []
+module = angular.module "code-snippet", ['ui.codemirror']
 
 module.directive "codeSnippet", ->
     restrict: 'E'
-    scope: true
+    scope:
+        code: '=ngModel'
     compile: (elem, attrs) ->
         code = elem.html()
         elem.html template({}, jade.attrs, jade.escape, jade.rethrow, jade.merge)
-        return (scope, elem, attrs) ->
-            scope.code = code
-            scope.exec = ->
-                Function(scope.code)()
+        return {
+            pre: (scope, elem, attrs) ->
+                scope.code = code
+                scope.options = {lineNumbers: true}
+                scope.exec = ->
+                    Function(scope.code)()
+        }
+
 
 

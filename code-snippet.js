@@ -5,21 +5,28 @@ template = require("./snippet");
 
 jade = require("jade/runtime");
 
-module = angular.module("code-snippet", []);
+module = angular.module("code-snippet", ['ui.codemirror']);
 
 module.directive("codeSnippet", function() {
   return {
     restrict: 'E',
-    scope: true,
+    scope: {
+      code: '=ngModel'
+    },
     compile: function(elem, attrs) {
       var code;
       code = elem.html();
       elem.html(template({}, jade.attrs, jade.escape, jade.rethrow, jade.merge));
-      return function(scope, elem, attrs) {
-        scope.code = code;
-        return scope.exec = function() {
-          return Function(scope.code)();
-        };
+      return {
+        pre: function(scope, elem, attrs) {
+          scope.code = code;
+          scope.options = {
+            lineNumbers: true
+          };
+          return scope.exec = function() {
+            return Function(scope.code)();
+          };
+        }
       };
     }
   };
@@ -236,40 +243,37 @@ var buf = [];
 with (locals || {}) {
 var interp;
 __jade.unshift({ lineno: 1, filename: __jade[0].filename });
-__jade.unshift({ lineno: 9, filename: __jade[0].filename });
-buf.push('<style type="text/css">.code-snippet {\n  margin-bottom: 1em;\n}\n</style>');
+__jade.unshift({ lineno: 20, filename: __jade[0].filename });
+buf.push('<style type="text/css">.code-snippet {\n  margin-bottom: 1em;\n}\n.code-area {\n  margin-bottom: 1em;\n}\n.CodeMirror {\n  height: auto;\n  border-radius: 5px;\n  background-color: #f5f5f5;\n}\n</style>');
 __jade.shift();
-__jade.unshift({ lineno: 9, filename: __jade[0].filename });
+__jade.unshift({ lineno: 20, filename: __jade[0].filename });
 buf.push('<div class="code-snippet">');
 __jade.unshift({ lineno: undefined, filename: __jade[0].filename });
-__jade.unshift({ lineno: 11, filename: __jade[0].filename });
-buf.push('<pre>');
+__jade.unshift({ lineno: 21, filename: __jade[0].filename });
+buf.push('<div class="code-area">');
 __jade.unshift({ lineno: undefined, filename: __jade[0].filename });
-__jade.unshift({ lineno: 11, filename: __jade[0].filename });
-buf.push('<code>');
+__jade.unshift({ lineno: 23, filename: __jade[0].filename });
+buf.push('<textarea ui-codemirror="options" ng-model="code" ui-refresh="code">');
 __jade.unshift({ lineno: undefined, filename: __jade[0].filename });
-__jade.unshift({ lineno: 11, filename: __jade[0].filename });
-buf.push('{{code}}');
+__jade.shift();
+buf.push('</textarea>');
 __jade.shift();
 __jade.shift();
-buf.push('</code>');
+buf.push('</div>');
 __jade.shift();
-__jade.shift();
-buf.push('</pre>');
-__jade.shift();
-__jade.unshift({ lineno: 12, filename: __jade[0].filename });
-buf.push('<button ng-click="exec()" class="btn">');
+__jade.unshift({ lineno: 23, filename: __jade[0].filename });
+buf.push('<button ng-click="exec()" class="btn btn-primary">');
 __jade.unshift({ lineno: undefined, filename: __jade[0].filename });
-__jade.unshift({ lineno: 13, filename: __jade[0].filename });
+__jade.unshift({ lineno: 24, filename: __jade[0].filename });
 buf.push('<i class="icon-play">');
 __jade.unshift({ lineno: undefined, filename: __jade[0].filename });
 __jade.shift();
 buf.push('</i>');
 __jade.shift();
-__jade.unshift({ lineno: 14, filename: __jade[0].filename });
+__jade.unshift({ lineno: 25, filename: __jade[0].filename });
 buf.push('<span>');
 __jade.unshift({ lineno: undefined, filename: __jade[0].filename });
-__jade.unshift({ lineno: 14, filename: __jade[0].filename });
+__jade.unshift({ lineno: 25, filename: __jade[0].filename });
 buf.push('&nbsp;Play');
 __jade.shift();
 __jade.shift();
