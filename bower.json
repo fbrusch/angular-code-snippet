@@ -1,0 +1,7 @@
+{
+  "name": "angular-code-snippet",
+  "version": "0.0.0",
+  "dependencies": {
+    "CodeMirror": "~3.14.0"
+  }
+}
